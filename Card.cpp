@@ -19,43 +19,83 @@ void Card::setVal(unsigned int val)
 {
     this->val = val;
 }
+
 void Card::setName()
 {
     string n = "";
-    int rVal = val%13;
-    switch(rVal){
-        case 1:
-            n+="As";
-            break;
-        case 11:
-            n+="Valet";
-            break;
-        case 12:
-            n+="Dame";
-            break;
-        case 0:
-            n+="Roi";
-            break;
-        default : 
-            n+= to_string(rVal);
-            break;
-    }
 
-    if(val<=13)
-        n += " de Trèfle";
-    else if(val<=26)
-        n+=" de Carreau";
-    else if(val<=39)
-        n+=" de Coeur";
+    if(val==53)
+    {
+        n+="JR";
+    }
+    else if(val==54)
+    {
+        n+="JN";
+        setVal(53);
+    }
     else
-        n+=" de Pique";
+    {
+        int rVal = val%13;
+
+        switch(rVal){
+            case 1:
+                n+="As";
+                break;
+            case 11:
+                n+="Valet";
+                break;
+            case 12:
+                n+="Dame";
+                break;
+            case 0:
+                n+="Roi";
+                break;
+            default : 
+                n+= to_string(rVal);
+                break;
+        }
+
+        if(val<=13)
+            n += " de Trèfle";
+        else if(val<=26)
+            n+=" de Carreau";
+        else if(val<=39)
+            n+=" de Coeur";
+        else
+            n+=" de Pique";
+    }
     this->name = n;
 }
 
-
-void Card::affiche()
+string Card::getName()
 {
-    // cout << "Carte n°" << getVal() << endl;
-    cout << this->name << endl;
+    return this->name;
 }
 
+void Card::setPos(unsigned int p)
+{
+    this->pos = p;
+}
+
+unsigned int Card::getPos()
+{
+    return this->pos;
+}
+
+void Card::afficheDetail()
+{
+    // cout << "Carte n°" << getVal() << endl;
+    cout << this->name << " a valeur de " << this->val << endl;
+}
+
+void Card::afficheListe()
+{
+    if(val==53)
+    {
+        cout << this->name << ", ";
+    }
+    else
+    {
+        cout << this->val << ", ";
+    }
+}

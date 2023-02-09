@@ -10,14 +10,18 @@ using namespace::std;
 
 class Card{
     private:
-        unsigned int val;
+        unsigned int val, pos;
         string name;
 
     public:
         Card(unsigned int val);
-        unsigned int getVal();
         void setVal(unsigned int val);
+        unsigned int getVal();
         void setName();
-        void affiche();
+        string getName();
+        void setPos(unsigned int p);
+        unsigned int getPos();
+        void afficheDetail();
 
+        void afficheListe();
 };

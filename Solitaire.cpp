@@ -15,7 +15,7 @@ int main(int argc, char *argv [])
     
   Paquet* p = new Paquet();
   p->showList();
-  p->stepOne();
+  p->stepOne("JN");
   p->stepTwo();
 
 }

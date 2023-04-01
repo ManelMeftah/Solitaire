@@ -27,8 +27,14 @@ class Paquet{
         void stepOne();
         void stepTwo();
         void stepThree();
+        void stepFour();
+        void stepFive();
+        void updatePos();
+
+        void melangePaquet();
 
         Card *find(string name);
 
         void permut(int pos);
+        void permut(int pos1, int pos2);
 };

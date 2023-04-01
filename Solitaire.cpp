@@ -14,8 +14,7 @@ int main(int argc, char *argv [])
 {
     
   Paquet* p = new Paquet();
-  p->showList();
-  p->stepOne();
-  p->stepTwo();
+p->melangePaquet();
+p->stepFive();
 
 }

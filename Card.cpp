@@ -1,8 +1,52 @@
+// #include "Card.h"
+
+// #include <string>
+
+// using namespace::std;
+
+// Card::Card(unsigned int val)
+// {
+//     this->val = val+1;
+//     setName();
+// }
+
+// unsigned int Card::getVal()
+// {
+//     return this->val;
+// }
+
+// void Card::setVal(unsigned int val)
+// {
+//     this->val = val;
+// }
+
+
+
+// string Card::getName()
+// {
+//     return this->name;
+// }
+
+// void Card::setPos(unsigned int p)
+// {
+//     this->pos = p;
+// }
+
+// unsigned int Card::getPos()
+// {
+//     return this->pos;
+// }
+
+// void Card::afficheDetail()
+// {
+//     // cout << "Carte n°" << getVal() << endl;
+//     cout << this->name << " a valeur de " << this->val << endl;
+// }
+
+
+
+
 #include "Card.h"
-
-#include <string>
-
-using namespace::std;
 
 Card::Card(unsigned int val)
 {
@@ -10,15 +54,16 @@ Card::Card(unsigned int val)
     setName();
 }
 
-unsigned int Card::getVal()
-{
-    return this->val;
-}
-
 void Card::setVal(unsigned int val)
 {
     this->val = val;
 }
+
+unsigned int Card::getVal()
+{
+    return val;
+}
+
 
 void Card::setName()
 {
@@ -26,12 +71,14 @@ void Card::setName()
 
     if(val==53)
     {
-        n+="JR";
+        n+="JR";        
+
     }
     else if(val==54)
     {
         n+="JN";
         setVal(53);
+
     }
     else
     {
@@ -67,35 +114,85 @@ void Card::setName()
     this->name = n;
 }
 
-string Card::getName()
-{
-    return this->name;
-}
-
-void Card::setPos(unsigned int p)
-{
-    this->pos = p;
-}
-
-unsigned int Card::getPos()
-{
-    return this->pos;
-}
-
-void Card::afficheDetail()
-{
-    // cout << "Carte n°" << getVal() << endl;
-    cout << this->name << " a valeur de " << this->val << endl;
-}
-
 void Card::afficheListe()
 {
     if(val==53)
     {
-        cout << this->name << ", ";
+        cout << this->name ;
     }
     else
     {
-        cout << this->val << ", ";
+        cout << this->val ;
     }
+    cout << "[" << this->pos << "]" << ", ";
 }
+
+
+// void Card::setName()
+// {
+//     int suit = (val - 1) / 13;
+//     int rank = (val - 1) % 13;
+
+//     switch (suit)
+//     {
+//     case 0:
+//         name = "C";
+//         break;
+//     case 1:
+//         name = "D";
+//         break;
+//     case 2:
+//         name = "H";
+//         break;
+//     case 3:
+//         name = "S";
+//         break;
+//     }
+
+//     switch (rank)
+//     {
+//     case 0:
+//         name += "A";
+//         break;
+//     case 9:
+//         name += "T";
+//         break;
+//     case 10:
+//         name += "J";
+//         break;
+//     case 11:
+//         name += "Q";
+//         break;
+//     case 12:
+//         name += "K";
+//         break;
+//     default:
+//         name += to_string(rank + 1);
+//         break;
+//     }
+// }
+
+string Card::getName()
+{
+    return name;
+}
+
+void Card::setPos(unsigned int p)
+{
+    pos = p;
+}
+
+unsigned int Card::getPos()
+{
+    return pos;
+}
+
+void Card::afficheDetail()
+{
+    cout << name << "(" << val << ")[" << pos << "]" << endl;
+}
+
+// void Card::afficheListe()
+// {
+//     cout << name << " ";
+// }

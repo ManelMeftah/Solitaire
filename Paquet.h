@@ -24,13 +24,11 @@ class Paquet{
         void init();
         void showPaquet();
         void showList();
-        void stepOne(string jname);
         void stepOne();
-
         void stepTwo();
+        void stepThree();
 
         Card *find(string name);
 
-        void permut(int pos1, int pos2);
-        void shift(Card* j);
+        void permut(int pos);
 };

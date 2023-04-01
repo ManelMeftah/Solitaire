@@ -21,6 +21,8 @@ void Paquet::init()
     {
         paquet[i]->setPos(i);
     }
+    // showPaquet();
+    
 }
 
 void Paquet::showPaquet()
@@ -42,59 +44,29 @@ void Paquet::showList()
     }
 }
 
-void Paquet::stepOne(string jname)
+void Paquet::stepOne()
 {
-    Card* jn = find(jname);
+    Card* jn = find("JN");
     
-    cout << endl << jname <<"TROUVE A POSITION " << jn->getPos()+1<< endl; 
-    int newPos = jn->getPos();
-    if(jn->getPos()==size-1)
-    {
-        shift(jn);
-        newPos=0;
-    }
-    permut(newPos, newPos+1);
-
-    // if(jn->getPos()==size-1)
-    // {
-    //     permut(1, size-1);
-    //     // jn->setPos(0);
-    // }
-    // else
-    // {
-    //     permut(jn->getPos()+1, jn->getPos());
-    //     // jn->setPos(jn->getPos()+1);
-    // }
+    cout << endl << "JOKER NOIR TROUVE A POSITION " << jn->getPos()<< endl; 
+    permut(jn->getPos());
     showList();
-    // showPaquet();
 }
 
 void Paquet::stepTwo()
 {
-    stepOne("JR");
-    stepOne("JR");
-    // Card* jr = find("JR");
-    // cout<<endl<<endl<<endl;
-    // cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()+1<< endl; 
-    
-    // int newPos;
-    // if (jr->getPos() == size-2) {
-    //     newPos = 1;
-    // } else if (jr->getPos() == size-1) {
-    //     newPos = 2;
-    // } else {
-    //     newPos = jr->getPos() + 2;
-    // }
-    // permut(jr->getPos(), newPos);
-    // for (int i = jr->getPos(); i < size-1; i++) {
-    //     paquet[i]->setPos(i+1);
-    // }
-    // paquet[size-1]->setPos(0);
+    Card* jr = find("JR");
+    cout<<endl<<endl<<endl;
+    cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()<< endl; 
+    permut(jr->getPos());
+    permut(jr->getPos());
 
     showList();
-    // showPaquet();
-    // cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()+1<< endl; 
+}
 
+void Paquet::stepThree()
+{
+    
 }
 
 Card* Paquet::find(string name)
@@ -114,20 +86,42 @@ Card* Paquet::find(string name)
     return c;
 }
 
-void Paquet::permut(int pos1, int pos2)
-{
-    Card* tmp = paquet[pos1];
-    paquet[pos1] = paquet[pos2];
-    paquet[pos2] = tmp;
+void Paquet::permut(int pos) {
+    if (pos < 0 || pos >= size) { // vérifier si pos est valide
+        cout<<"ERREUR: position de la carte invalide : " << pos <<endl <<endl;
+        return;
+    }
+    if (pos == size - 1) { // si la carte est à la dernière position
+        Card* tmp = paquet[pos];
+        paquet[pos] = paquet[0];
+        paquet[0] = tmp;
 
-    paquet[pos1]->setPos(pos1);
-    paquet[pos2]->setPos(pos2);
+        paquet[pos]->setPos(pos);
+        paquet[0]->setPos(0);
+    } else {
+        Card* tmp = paquet[pos];
+        paquet[pos] = paquet[pos+1];
+        paquet[pos+1] = tmp;
 
+        paquet[pos]->setPos(pos);
+        paquet[pos+1]->setPos(pos+1);
+    }
 }
 
-void Paquet::shift(Card* j)
-{
-    paquet.insert(paquet.begin(), j);
 
-}
+// void Paquet::permut(int pos1, int pos2)
+// {
+//     Card* tmp = paquet[pos1];
+//     paquet[pos1] = paquet[pos2];
+//     paquet[pos2] = tmp;
+
+//     paquet[pos1]->setPos(pos1);
+//     paquet[pos2]->setPos(pos2);
+
+// }
+
+// void Paquet::shift(Card* j)
+// {
+//     paquet.insert(paquet.begin(), j);
+// }
 

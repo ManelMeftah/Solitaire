@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <fstream>
 
 #include "Card.h"
 
@@ -19,19 +20,28 @@ class Paquet{
     private:
         unsigned int size = 54;
         vector<Card*> paquet;
+        int* flux;
+        int taille;
     public:
         Paquet();   
         void init();
+        void initRandom();
+        void initDefault();
+        void init(string dname);
         void showPaquet();
         void showList();
         void stepOne();
         void stepTwo();
         void stepThree();
         void stepFour();
-        void stepFive();
+        int stepFive();
+        void genereFlux();
+        string crypteMessage(string message);
+        string decrypteMessage(string message);
         void updatePos();
 
         void melangePaquet();
+        char nth_letter(int n);
 
         Card *find(string name);
 

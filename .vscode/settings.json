@@ -4,6 +4,8 @@
         "format": "cpp",
         "vector": "cpp",
         "xstring": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "random": "cpp",
+        "ostream": "cpp"
     }
 }

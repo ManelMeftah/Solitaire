@@ -13,6 +13,26 @@ void Paquet::init()
                         .time_since_epoch()
                         .count();
     //-------------------------INIT------------------------
+    paquet.clear();
+    for(int i=0; i<size; i++)
+        paquet.push_back(new Card(i));
+
+    // shuffle(paquet.begin(), paquet.end(), default_random_engine(seed));
+    for(int i=0; i<size; i++)
+    {
+        paquet[i]->setPos(i);
+    }
+    // showPaquet();
+    
+}
+
+void Paquet::initRandom()
+{
+        unsigned seed = std::chrono::system_clock::now()
+                        .time_since_epoch()
+                        .count();
+    //-------------------------INIT------------------------
+    paquet.clear();
     for(int i=0; i<size; i++)
         paquet.push_back(new Card(i));
 
@@ -21,8 +41,49 @@ void Paquet::init()
     {
         paquet[i]->setPos(i);
     }
-    // showPaquet();
-    
+    //sauvegarde l'etat initial du deck
+    ofstream fichier("deck.txt");
+
+    if (fichier) {
+        for (int i = 0; i < size; i++) {
+            fichier << paquet[i]->getVal() << endl;
+        }
+        fichier.close();
+    } else {
+        cout << "Erreur: impossible d'ouvrir le fichier deck.txt" << endl;
+    }
+}
+
+void Paquet::initDefault()
+{
+    paquet.clear();
+    for(int i=1; i<size; i++)
+        paquet.push_back(new Card(i));
+
+    // shuffle(paquet.begin(), paquet.end(), default_random_engine(seed));
+    for(int i=0; i<size; i++)
+    {
+        paquet[i]->setPos(i);
+    }
+}
+
+void Paquet::init(string dname)
+{
+    paquet.clear();
+    ifstream file(dname);
+    if (file.is_open()) {
+        int val;
+        while (file >> val) {
+            paquet.push_back(new Card(val));
+        }
+        file.close();
+    }
+    for(int i=0; i<size; i++)
+    {
+        paquet[i]->setPos(i);
+    }
+    showList();
+
 }
 
 void Paquet::showPaquet()
@@ -49,20 +110,20 @@ void Paquet::stepOne()
 {
     Card* jn = find("JN");
     
-    cout << endl << "JOKER NOIR TROUVE A POSITION " << jn->getPos()<< endl; 
+    // cout << endl << "JOKER NOIR TROUVE A POSITION " << jn->getPos()<< endl; 
     permut(jn->getPos());
-    showList();
+    // showList();
 }
 
 void Paquet::stepTwo()
 {
     Card* jr = find("JR");
-    cout<<endl<<endl<<endl;
-    cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()<< endl; 
+    // cout<<endl<<endl<<endl;
+    // cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()<< endl; 
     permut(jr->getPos());
     permut(jr->getPos());
 
-    showList();
+    // showList();
 }
 
 void Paquet::stepThree()
@@ -81,7 +142,7 @@ void Paquet::stepThree()
     }
     int posA = jA->getPos();
     int posB = jB->getPos();
-    cout << "pos a "<< posA << " pos b " << posB << endl;
+    // cout << "pos a "<< posA << " pos b " << posB << endl;
 
     
     if (posA == -1 || posB == -1) {
@@ -119,14 +180,14 @@ void Paquet::stepThree()
         index++;
     }
     updatePos();
-    showList();
+    // showList();
 
 }
 
 void Paquet::stepFour()
 {
     Card* last = paquet[size-1];
-    cout <<endl << "derniere carte a valeur " << last->getVal() << " nom " << last->getName() << endl;
+    // cout <<endl << "derniere carte a valeur " << last->getVal() << " nom " << last->getName() << endl;
     int n = last->getVal();
         // Extraire les trois sections de cartes
     vector<Card*> section1;
@@ -141,16 +202,6 @@ void Paquet::stepFour()
             section2.push_back(paquet[i]);
         } 
     }
-for (int i = 0; i < section1.size(); i++) {
-    section1[i]->afficheListe();
-}
-    cout<<endl;
-
-for (int i = 0; i < section2.size(); i++) {
-    section2[i]->afficheListe();
-
-}
-        cout<<endl;
 
 // Reconstituer le paquet en intercalant les sections
     int index = 0;
@@ -165,13 +216,13 @@ for (int i = 0; i < section2.size(); i++) {
     paquet[index] = last;
     updatePos();
 
-    showList();
+    // showList();
 
 
 }
 
 //int stepFive()
-void Paquet::stepFive()
+int Paquet::stepFive()
 {
     // Récupérer le numéro de la première carte
     int n = paquet[0]->getVal();
@@ -179,18 +230,132 @@ void Paquet::stepFive()
     int m = c->getVal();
     if(m == 53)
     {
-        //erreur joker
-        // melangePaquet();
-        // return stepFive();
+        cout << endl << "Joker trouve, pas pris en compte, on remelange" << endl;
+        melangePaquet();
+        return stepFive();
     }
     else
     {
         if(m>26)
+        {
             m = m-26;
-
-        char lettre = 'A' + m - 1;
-        cout << "valeur " << m << " lettre " << lettre;
+        }
+        return m;
     }
+}
+
+void Paquet::genereFlux()
+{
+    for(int i=0; i<taille; i++)
+    {
+        melangePaquet();
+        flux[i] = stepFive();
+    }
+    cout << endl << "FLUX GENERE :" << endl;
+    for (int i = 0; i < taille; i++) {
+        char c = 'A' + flux[i] - 1;
+        cout << c;
+    }
+}
+
+string Paquet::crypteMessage(string message)
+{
+    taille = message.length();
+    flux = new int[taille];
+
+    for (size_t i = 0; i < taille; ++i) {
+        if (islower(message[i])) {
+            message[i] = toupper(message[i]);
+        }
+    }
+
+    int* messageNum = new int[taille];
+    genereFlux();
+    for (int i = 0; i < taille; i++) {
+        messageNum[i] = message[i] - 'A' + 1;
+    }
+    cout << endl << "message " << message << " en chiffres : " ;
+    for(int i=0; i<taille; i++)
+    {
+        cout << messageNum[i] << " ";
+    }
+
+    int* messageCrypteNum = new int[taille];
+    for(int i=0; i<taille; i++)
+    {
+        messageCrypteNum[i] = flux[i] + messageNum[i];
+        if(messageCrypteNum[i] > 26)
+        {
+            messageCrypteNum -= 26;
+        }
+    }
+    string messageCrypte = "";
+    // cout << endl << "message crypte en chars "  ;
+    for (int i = 0; i < taille; i++) {
+        char c = nth_letter(messageCrypteNum[i]);  
+        messageCrypte += c;
+        cout << c;
+    }
+    cout << endl << "message crypte " << messageCrypte ;
+    return messageCrypte;
+
+}
+
+
+string Paquet::decrypteMessage(string message)
+{
+    taille = message.length();
+    flux = new int[taille];
+
+    for (size_t i = 0; i < taille; ++i) {
+        if (islower(message[i])) {
+            message[i] = toupper(message[i]);
+        }
+    }
+
+    int* messageNum = new int[taille];
+    genereFlux();
+    for (int i = 0; i < taille; i++) {
+        messageNum[i] = message[i] - 'A' + 1;
+    }
+    // cout << endl << "message " << message << " en chiffres : " ;
+    // for(int i=0; i<taille; i++)
+    // {
+    //     cout << messageNum[i] << " ";
+    // }
+    // cout << endl << "message crypte " << " en chiffres : " ;
+    int* messageCrypteNum = new int[taille];
+    for(int i=0; i<taille; i++)
+    {
+        messageCrypteNum[i] =  messageNum[i] - flux[i] ;
+            // cout << messageCrypteNum[i] << " ";
+
+        if(messageCrypteNum[i] < 0)
+        {
+            messageCrypteNum[i] = -messageCrypteNum[i];
+        }
+
+        if(messageCrypteNum[i] > 26)
+        {
+            messageCrypteNum -= 26;
+        }
+
+    }
+    string messageCrypte = "";
+    // cout << endl << "message decrypte en chars "  ;
+    for (int i = 0; i < taille; i++) {
+        char c = nth_letter(messageCrypteNum[i]);  
+        messageCrypte += c;
+        // cout << c;
+    }
+    cout << endl << "message decrypte " << messageCrypte ;
+    return messageCrypte;
+
+}
+
+char Paquet::nth_letter(int n)
+{
+    return "abcdefghijklmnopqrstuvwxyz"[n-1];
 }
 
 void Paquet::updatePos()

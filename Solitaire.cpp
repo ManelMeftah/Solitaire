@@ -48,7 +48,9 @@ void afficheMenu2()
             break;
         case 2:
             // code pour generer un deck aleatoirement
-            p->initRandom();
+            cout << "Donnez un nom a votre deck : " << endl;
+            cin >> fname;
+            p->initRandom(fname);
             break;
         case 3:
             // code pour selectionner un deck pre-melange
@@ -64,7 +66,7 @@ void afficheMenu2()
 void afficheMenu1()
 {
     int choix;
-    string fname = "";
+    // string fname = "";
     cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Menu:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout << "1. Crypter" << endl;
     cout << "2. Decrypter" << endl;
@@ -87,28 +89,38 @@ void afficheMenu1()
 
 }
 
+void test()
+{
+    p = new Paquet();
+
+    p->melangePaquet();
+    p->stepFive();
+    string message = "abcd"; //icup
+    string messageCrypte = p->crypteMessage(message);
+    p->init();
+    string messageDecrypte = p->decrypteMessage(messageCrypte);
+}
+
+void run()
+{
+    p = new Paquet();
+    char choix;
+    do
+    {
+        cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SOLITAIRE CYPHER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+        afficheMenu1();
+        cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+        cout << "Recommencer? (o/n)" << endl;
+    }while(choix != 'n');
+
+    cout << "Au revoir!" << endl;
+}
+
 
 int main(int argc, char *argv []) 
 {
-    
-  p = new Paquet();
-  char choix;
-  do
-  {
-    cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SOLITAIRE CYPHER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-    afficheMenu1();
-    cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-    cout << "Recommencer? (o/n)" << endl;
-  }while(choix != 'n');
-
-  cout << "Au revoir!" << endl;
-
-// p->melangePaquet();
-// p->stepFive();
-// string message = "abcd"; //icup
-// string messageCrypte = p->crypteMessage(message);
-// p->init();
-// string messageDecrypte = p->decrypteMessage(messageCrypte);
+    // run();
+    test();
 
 
 

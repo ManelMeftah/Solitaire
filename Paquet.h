@@ -25,7 +25,7 @@ class Paquet{
     public:
         Paquet();   
         void init();
-        void initRandom();
+        void initRandom(string fname);
         void initDefault();
         void init(string dname);
         void showPaquet();

@@ -9,15 +9,36 @@ using namespace::std;
 
 Paquet* p;
 
+string removeSpaces(string input) {
+    string output = "";
+    cout << "input = " << input << endl;
+    for (int i = 0; i < input.length(); i++) {
+        if (input[i] != ' ') {
+            output += input[i];
+        }
+        cout << input[i] << ' ';
 
+    }
+    cout << output << endl;
+    return output;
+}
 
 void crypter()
 {
     string message = "";
     cout << "Veuillez saisir le message a crypter: " << endl;
-    cin >> message;
+            // scanf("%[^\n]", message);
 
-    string messageC = p->crypteMessage(message);
+    cin >> message;
+// std::getline(std::cin >> std::ws, message);
+
+    cout << " votre message =  " << message<<endl;
+    // message.erase(std::remove_if(message.begin(), message.end(), ::isspace), message.end());
+    // message = removeSpaces(message);
+    // remove(message.begin(), message.end(), ' ');    
+    // cout << "message apres : " << message << endl;
+    string message2 = removeSpaces(message);
+    string messageC = p->crypteMessage(message2);
 }
 
 void decrypter()
@@ -25,6 +46,9 @@ void decrypter()
     string message = "";
     cout << "Veuillez saisir le message a decrypter: " << endl;
     cin >> message;
+    // getline(cin, message);
+
+    // message.erase(std::remove_if(message.begin(), message.end(), ::isspace), message.end());
 
     string messageC = p->decrypteMessage(message);
 }
@@ -54,7 +78,8 @@ void afficheMenu2()
             break;
         case 3:
             // code pour selectionner un deck pre-melange
-            p->initDefault();
+            // p->initDefault();
+            p->init();
             break;
         default:
             cout << "Choix invalide" << endl;
@@ -111,7 +136,8 @@ void run()
         afficheMenu1();
         cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Recommencer? (o/n)" << endl;
-    }while(choix != 'n');
+        cin >> choix;
+    }while(choix == 'o');
 
     cout << "Au revoir!" << endl;
 }
@@ -119,9 +145,9 @@ void run()
 
 int main(int argc, char *argv []) 
 {
+    // string message = "";
+
     run();
     // test();
-
-
 
 }

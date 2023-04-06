@@ -64,6 +64,7 @@ void Paquet::initRandom(string fname)
     } else {
         cout << "Erreur: impossible d'ouvrir le fichier deck.txt" << endl;
     }
+    showPaquet();
 }
 
 void Paquet::initDefault()
@@ -123,20 +124,20 @@ void Paquet::stepOne()
 {
     Card* jn = find("JN");
     
-    // cout << endl << "JOKER NOIR TROUVE A POSITION " << jn->getPos()<< endl; 
+    cout << endl << "JOKER NOIR TROUVE A POSITION " << jn->getPos()<< endl; 
     permut(jn->getPos());
-    // showList();
+    showList();
 }
 
 void Paquet::stepTwo()
 {
     Card* jr = find("JR");
-    // cout<<endl<<endl<<endl;
-    // cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()<< endl; 
+    cout<<endl<<endl<<endl;
+    cout << endl << "JOKER ROUGE TROUVE A POSITION " << jr->getPos()<< endl; 
     permut(jr->getPos());
     permut(jr->getPos());
 
-    // showList();
+    showList();
 }
 
 void Paquet::stepThree()
@@ -155,7 +156,7 @@ void Paquet::stepThree()
     }
     int posA = jA->getPos();
     int posB = jB->getPos();
-    // cout << "pos a "<< posA << " pos b " << posB << endl;
+    cout << "position joker a = "<< posA << " posisiton joker b = " << posB << endl;
 
     
     if (posA == -1 || posB == -1) {
@@ -193,14 +194,14 @@ void Paquet::stepThree()
         index++;
     }
     updatePos();
-    // showList();
+    showList();
 
 }
 
 void Paquet::stepFour()
 {
     Card* last = paquet[size-1];
-    // cout <<endl << "derniere carte a valeur " << last->getVal() << " nom " << last->getName() << endl;
+    cout <<endl << "derniere carte a valeur " << last->getVal() << " nom " << last->getName() << endl;
     int n = last->getVal();
         // Extraire les trois sections de cartes
     vector<Card*> section1;
@@ -229,7 +230,7 @@ void Paquet::stepFour()
     paquet[index] = last;
     updatePos();
 
-    // showList();
+    showList();
 
 
 }
@@ -251,30 +252,14 @@ int Paquet::stepFive()
     {
         if(m>26)
         {
-            // m = m-26;
-            m=m%26+1;
+            m = m-26;
+            // m=m%26+1;
         }
-        cout << endl << " lettre : " << m << endl;
+        // cout << endl << " lettre : " << m << endl;
 
         return m;
     }
 }
-
-// void Paquet::genereFlux()
-// {
-//     for(int i=0; i<taille; i++)
-//     {
-//         melangePaquet();
-//         flux[i] = stepFive();
-//         cout << "flux " << i << " = " << flux[i] << endl;
-//     }
-//     cout << endl << "FLUX GENERE :" << endl;
-//     for (int i = 0; i < taille; i++) {
-//         // char c = 'A' + flux[i] - 1;
-//         char c = nth_letter(flux[i]); 
-//         cout << c << " num " << flux[i];
-//     }
-// }
 
 void Paquet::genereFlux()
 {
@@ -292,94 +277,6 @@ void Paquet::genereFlux()
         cout << c;
     }
 }
-
-// string Paquet::crypteMessage(string message)
-// {
-//     taille = message.length();
-//     flux = new int[taille];
-
-//     for (size_t i = 0; i < taille; ++i) {
-//         if (islower(message[i])) {
-//             message[i] = toupper(message[i]);
-//         }
-//     }
-
-//     int* messageNum = new int[taille];
-//     genereFlux();
-//     for (int i = 0; i < taille; i++) {
-//         messageNum[i] = message[i] - 'A' + 1;
-//     }
-//     cout << endl << "message " << message << " en chiffres : ";
-//     for (int i = 0; i < taille; i++)
-//     {
-//         cout << messageNum[i] << " ";
-//     }
-
-//     int* messageCrypteNum = new int[taille];
-//     for (int i = 0; i < taille; i++)
-//     {
-//         messageCrypteNum[i] = flux[i] + messageNum[i];
-//         if (messageCrypteNum[i] > 26)
-//         {
-//             messageCrypteNum -= 26;
-//         }
-//     }
-//     string messageCrypte = "";
-//     cout << endl << "message crypte en chars ";
-//     for (int i = 0; i < taille; i++) {
-//         char c = nth_letter(messageCrypteNum[i]);
-//         messageCrypte += c;
-//         cout << c;
-//     }
-//     cout << endl << "message crypte " << messageCrypte;
-//     return messageCrypte;
-
-// }
-
-// string Paquet::crypteMessage(string message)
-// {
-//     taille = message.length();
-//     flux = new int[taille];
-
-//     //convertir les char en maj
-//     for (size_t i = 0; i < taille; ++i) {
-//         if (islower(message[i])) {
-//             message[i] = toupper(message[i]);
-//         }
-//     }
-
-//     int* messageNum = new int[taille];
-//     genereFlux();
-//     for (int i = 0; i < taille; i++) {
-//         messageNum[i] = message[i] - 'A' + 1;
-//     }
-//     cout << endl << "message " << message << " en chiffres : " ;
-//     for(int i=0; i<taille; i++)
-//     {
-//         cout << messageNum[i] << " ";
-//     }
-
-//     int* messageCrypteNum = new int[taille];
-//     for(int i=0; i<taille; i++)
-//     {
-//         messageCrypteNum[i] = flux[i] + messageNum[i];
-//         if(messageCrypteNum[i] > 26)
-//         {
-//             messageCrypteNum -= 26;
-//         }
-//     }
-//     string messageCrypte = "";
-//     cout << endl << "message crypte en chars "  ;
-//     for (int i = 0; i < taille; i++) {
-//         char c = nth_letter(messageCrypteNum[i]);  
-//         messageCrypte += c;
-//         cout << c;
-//     }
-//     cout << endl << "message crypte " << messageCrypte << endl ;
-//     return messageCrypte;
-
-// }
-
 
 string Paquet::crypteMessage(string message)
 {
@@ -407,18 +304,21 @@ string Paquet::crypteMessage(string message)
     {
         cout << messageNum[i] << " ";
     }
-    cout << endl << "message crypte " << " en chiffres : " ;
+    cout << endl << "message crypte " << " en chiffres : " << endl;
     int* messageCrypteNum = new int[taille];
     for(int i=0; i<taille; i++)
     {
+ 
         messageCrypteNum[i] =  messageNum[i] + flux[i] ;
 
         if(messageCrypteNum[i] > 26)
         {
-            // messageCrypteNum[i] -= 26;
-            messageCrypteNum[i] = messageCrypteNum[i] % 26 + 1;
+            messageCrypteNum[i] -= 26;
+            // messageCrypteNum[i] = messageCrypteNum[i] % 26 + 1;
         }
-        cout << messageCrypteNum[i] << " ";
+        cout << messageCrypteNum[i] << " = " << messageNum[i] << " + " << flux[i] << endl;
+
+        // cout << messageCrypteNum[i] << " ";
 
     }
     string messageCrypte = "";
@@ -463,19 +363,32 @@ string Paquet::decrypteMessage(string message)
     int* messageCrypteNum = new int[taille];
     for(int i=0; i<taille; i++)
     {
+        if(messageNum[i] < flux[i])
+        {
+            messageCrypteNum[i] = (messageNum[i] + 26) - flux[i];
+        }
+        else
+        {
         messageCrypteNum[i] =  messageNum[i] - flux[i] ;
 
-        if(messageCrypteNum[i] < 0)
-        {
-            messageCrypteNum[i] = -messageCrypteNum[i];
         }
+        if(messageCrypteNum[i] == 0)
+            messageCrypteNum[i] = 26;
+        // messageCrypteNum[i] =  (messageNum[i] - flux[i]) % 26 ;
 
-        if(messageCrypteNum[i] > 26)
-        {
-            // messageCrypteNum[i] -= 26;
-            messageCrypteNum[i] = messageCrypteNum[i] % 26 +1;
-        }
-        cout << messageCrypteNum[i] << " ";
+        // if(messageCrypteNum[i] < 0)
+        // {
+        //     messageCrypteNum[i] = -messageCrypteNum[i];
+        // }
+
+        // if(messageCrypteNum[i] > 26)
+        // {
+        //     messageCrypteNum[i] -= 26;
+        //     // messageCrypteNum[i] = messageCrypteNum[i] % 26 +1;
+        // }
+        // cout << messageCrypteNum[i] << " ";
+        cout << messageCrypteNum[i] << " = " << messageNum[i] << " - " << flux[i] << endl;
+
 
     }
     string messageCrypte = "";
@@ -491,7 +404,7 @@ string Paquet::decrypteMessage(string message)
     return messageCrypte;
 
 }
-
+// icupqajnzqvrucjundcmbxiitw
 char Paquet::nth_letter(int n)
 {
     return "abcdefghijklmnopqrstuvwxyz"[n-1];

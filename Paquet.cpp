@@ -34,7 +34,7 @@ void Paquet::init()
     //     cout << "Erreur: impossible d'ouvrir le fichier deck.txt" << endl;
     // }
     // showPaquet();
-    showList();
+    // showList();
     
 }
 
@@ -94,7 +94,8 @@ void Paquet::init(string dname)
     {
         paquet[i]->setPos(i);
     }
-    showList();
+    // showList();
+    showPaquet();
 
 }
 
@@ -250,9 +251,10 @@ int Paquet::stepFive()
     {
         if(m>26)
         {
-            m = m-26;
+            // m = m-26;
+            m=m%26+1;
         }
-        cout << "lettre : " << m << endl;
+        cout << endl << " lettre : " << m << endl;
 
         return m;
     }
@@ -280,10 +282,13 @@ void Paquet::genereFlux()
     {
         melangePaquet();
         flux[i] = stepFive();
+        cout << "flux de " << i << " = " << flux[i] ;
     }
+
     cout << endl << "FLUX GENERE :" << endl;
     for (int i = 0; i < taille; i++) {
-        char c = 'A' + flux[i] - 1;
+        // char c = 'A' + flux[i] - 1;
+        char c = nth_letter(flux[i]);
         cout << c;
     }
 }
@@ -331,12 +336,56 @@ void Paquet::genereFlux()
 
 // }
 
+// string Paquet::crypteMessage(string message)
+// {
+//     taille = message.length();
+//     flux = new int[taille];
+
+//     //convertir les char en maj
+//     for (size_t i = 0; i < taille; ++i) {
+//         if (islower(message[i])) {
+//             message[i] = toupper(message[i]);
+//         }
+//     }
+
+//     int* messageNum = new int[taille];
+//     genereFlux();
+//     for (int i = 0; i < taille; i++) {
+//         messageNum[i] = message[i] - 'A' + 1;
+//     }
+//     cout << endl << "message " << message << " en chiffres : " ;
+//     for(int i=0; i<taille; i++)
+//     {
+//         cout << messageNum[i] << " ";
+//     }
+
+//     int* messageCrypteNum = new int[taille];
+//     for(int i=0; i<taille; i++)
+//     {
+//         messageCrypteNum[i] = flux[i] + messageNum[i];
+//         if(messageCrypteNum[i] > 26)
+//         {
+//             messageCrypteNum -= 26;
+//         }
+//     }
+//     string messageCrypte = "";
+//     cout << endl << "message crypte en chars "  ;
+//     for (int i = 0; i < taille; i++) {
+//         char c = nth_letter(messageCrypteNum[i]);  
+//         messageCrypte += c;
+//         cout << c;
+//     }
+//     cout << endl << "message crypte " << messageCrypte << endl ;
+//     return messageCrypte;
+
+// }
+
+
 string Paquet::crypteMessage(string message)
 {
     taille = message.length();
     flux = new int[taille];
 
-    //convertir les char en maj
     for (size_t i = 0; i < taille; ++i) {
         if (islower(message[i])) {
             message[i] = toupper(message[i]);
@@ -348,33 +397,41 @@ string Paquet::crypteMessage(string message)
     for (int i = 0; i < taille; i++) {
         messageNum[i] = message[i] - 'A' + 1;
     }
+    cout << endl << "flux en chiffres : " ;
+    for(int i=0; i<taille; i++)
+    {
+        cout << flux[i] << " ";
+    }
     cout << endl << "message " << message << " en chiffres : " ;
     for(int i=0; i<taille; i++)
     {
         cout << messageNum[i] << " ";
     }
-
+    cout << endl << "message crypte " << " en chiffres : " ;
     int* messageCrypteNum = new int[taille];
     for(int i=0; i<taille; i++)
     {
-        messageCrypteNum[i] = flux[i] + messageNum[i];
+        messageCrypteNum[i] =  messageNum[i] + flux[i] ;
+
         if(messageCrypteNum[i] > 26)
         {
-            messageCrypteNum -= 26;
+            // messageCrypteNum[i] -= 26;
+            messageCrypteNum[i] = messageCrypteNum[i] % 26 + 1;
         }
+        cout << messageCrypteNum[i] << " ";
+
     }
     string messageCrypte = "";
-    cout << endl << "message crypte en chars "  ;
+    cout << endl << "message decrypte en chars "  ;
     for (int i = 0; i < taille; i++) {
         char c = nth_letter(messageCrypteNum[i]);  
         messageCrypte += c;
         cout << c;
     }
-    cout << endl << "message crypte " << messageCrypte << endl ;
+    cout << endl << "message decrypte " << messageCrypte ;
     return messageCrypte;
 
 }
-
 
 string Paquet::decrypteMessage(string message)
 {
@@ -389,6 +446,11 @@ string Paquet::decrypteMessage(string message)
 
     int* messageNum = new int[taille];
     genereFlux();
+    cout << endl << "flux en chiffres : " ;
+    for(int i=0; i<taille; i++)
+    {
+        cout << flux[i] << " ";
+    }
     for (int i = 0; i < taille; i++) {
         messageNum[i] = message[i] - 'A' + 1;
     }
@@ -410,7 +472,8 @@ string Paquet::decrypteMessage(string message)
 
         if(messageCrypteNum[i] > 26)
         {
-            messageCrypteNum -= 26;
+            // messageCrypteNum[i] -= 26;
+            messageCrypteNum[i] = messageCrypteNum[i] % 26 +1;
         }
         cout << messageCrypteNum[i] << " ";
 
@@ -422,6 +485,8 @@ string Paquet::decrypteMessage(string message)
         messageCrypte += c;
         cout << c;
     }
+    // flux cdtropjqoo detropjrpo
+    // crypt lolsbjkagx mpmsckkcix
     cout << endl << "message decrypte " << messageCrypte ;
     return messageCrypte;
 

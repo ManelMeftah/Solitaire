@@ -93,9 +93,9 @@ void test()
 {
     p = new Paquet();
 
-    p->melangePaquet();
-    p->stepFive();
-    string message = "abcd"; //icup
+    // p->melangePaquet();
+    // p->stepFive();
+    string message = "abcd kjegf"; //icup
     string messageCrypte = p->crypteMessage(message);
     p->init();
     string messageDecrypte = p->decrypteMessage(messageCrypte);
@@ -119,8 +119,8 @@ void run()
 
 int main(int argc, char *argv []) 
 {
-    // run();
-    test();
+    run();
+    // test();
 
 
 

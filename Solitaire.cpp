@@ -9,6 +9,8 @@ using namespace::std;
 
 Paquet* p;
 
+
+//fonction qui supprime les espaces. peux etre etendues pour la suppression d'autres caracteres speciaux
 string removeSpaces(string input) {
     string output = "";
     cout << "input = " << input << endl;
@@ -23,36 +25,31 @@ string removeSpaces(string input) {
     return output;
 }
 
+//fonction qui appel crypteMessage qui cripte le message saisi par l'user
 void crypter()
 {
     string message = "";
     cout << "Veuillez saisir le message a crypter: " << endl;
-            // scanf("%[^\n]", message);
 
-    cin >> message;
-// std::getline(std::cin >> std::ws, message);
+     std::getline(std::cin >> std::ws, message); //saisie utilisateur
+     message = removeSpaces(message); //suppression des espaces
 
-    cout << " votre message =  " << message<<endl;
-    // message.erase(std::remove_if(message.begin(), message.end(), ::isspace), message.end());
-    // message = removeSpaces(message);
-    // remove(message.begin(), message.end(), ' ');    
-    // cout << "message apres : " << message << endl;
-    string message2 = removeSpaces(message);
-    string messageC = p->crypteMessage(message2);
+    string messageC = p->crypteMessage(message);
 }
 
+//pareil pour decrypter
 void decrypter()
 {
     string message = "";
     cout << "Veuillez saisir le message a decrypter: " << endl;
-    cin >> message;
-    // getline(cin, message);
 
-    // message.erase(std::remove_if(message.begin(), message.end(), ::isspace), message.end());
+    std::getline(std::cin >> std::ws, message);
+    message = removeSpaces(message);
 
     string messageC = p->decrypteMessage(message);
 }
 
+//menu 2 de selection d'option de chargement de paquet
 void afficheMenu2()
 {
     int choix;
@@ -65,29 +62,30 @@ void afficheMenu2()
     cin >> choix;
 
     switch (choix) {
-        case 1:
-            cout << "Saisir nom fichier : " << endl;
-            cin >> fname;
-            p->init(fname);
-            break;
-        case 2:
-            // code pour generer un deck aleatoirement
-            cout << "Donnez un nom a votre deck : " << endl;
-            cin >> fname;
-            p->initRandom(fname);
-            break;
-        case 3:
-            // code pour selectionner un deck pre-melange
-            // p->initDefault();
-            p->init();
-            break;
-        default:
-            cout << "Choix invalide" << endl;
-            break;
+    case 1:
+        cout << "Saisir nom fichier : " << endl;
+        cin >> fname;
+        p->init(fname);
+        break;
+    case 2:
+        // code pour generer un deck aleatoirement
+        cout << "Donnez un nom a votre deck : " << endl;
+        cin >> fname;
+        p->initRandom(fname);
+        break;
+    case 3:
+        // code pour selectionner un deck pre-melange
+         //p->initDefault();
+        p->init();
+        break;
+    default:
+        cout << "Choix invalide" << endl;
+        break;
     }
 
 }
 
+//menu 1 pour selection option cryptage/decryptage
 void afficheMenu1()
 {
     int choix;
@@ -98,22 +96,23 @@ void afficheMenu1()
     cout << "Entrez votre choix: ";
     cin >> choix;
 
-        switch (choix) {
-        case 1:
-            afficheMenu2();
-            crypter();
-            break;
-        case 2:
-            afficheMenu2();
-            decrypter();
-            break;
-        default:
-            cout << "Choix invalide" << endl;
-            break;
+    switch (choix) {
+    case 1:
+        afficheMenu2();
+        crypter();
+        break;
+    case 2:
+        afficheMenu2();
+        decrypter();
+        break;
+    default:
+        cout << "Choix invalide" << endl;
+        break;
     }
 
 }
 
+//fonction test quelconque
 void test()
 {
     p = new Paquet();
@@ -126,10 +125,11 @@ void test()
     string messageDecrypte = p->decrypteMessage(messageCrypte);
 }
 
+//main run qui appel les menus
 void run()
 {
     p = new Paquet();
-    char choix;
+    char choix='o';
     do
     {
         cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SOLITAIRE CYPHER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
@@ -137,13 +137,13 @@ void run()
         cout << endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
         cout << "Recommencer? (o/n)" << endl;
         cin >> choix;
-    }while(choix == 'o');
+    } while (choix == 'o');
 
     cout << "Au revoir!" << endl;
 }
 
 
-int main(int argc, char *argv []) 
+int main(int argc, char* argv[])
 {
     // string message = "";
 
